@@ -1,0 +1,113 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 20% 98%;
+    --foreground: 220 43% 28%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 43% 28%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 43% 28%;
+    --primary: 29 88% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 41 100% 67%;
+    --secondary-foreground: 220 43% 28%;
+    --muted: 220 10% 92%;
+    --muted-foreground: 220 20% 45%;
+    --accent: 358 77% 66%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 29 88% 57%;
+    --radius: 1.5rem;
+  }
+  .dark {
+    --background: 220 43% 10%;
+    --foreground: 60 20% 98%;
+    --card: 220 43% 12%;
+    --card-foreground: 60 20% 98%;
+    --primary: 29 88% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 41 100% 67%;
+    --accent: 358 77% 66%;
+    --border: 220 43% 20%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body selection:bg-primary/30 antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline tracking-tight;
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradient-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slow-spin {
+  animation: slow-spin 20s linear infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-move 10s ease infinite;
+}
+
+.grid-bg {
+  background-image: linear-gradient(to right, hsl(var(--foreground) / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--foreground) / 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-secondary;
+}
+
+.glass {
+  @apply bg-white/40 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.glass-dark {
+  @apply bg-foreground/10 backdrop-blur-md border border-white/5;
+}
+
+.vibrant-gradient {
+  background: linear-gradient(135deg, #F28C30 0%, #E94E77 50%, #4A90E2 100%);
+}
+
+.vibrant-gradient-soft {
+  background: linear-gradient(135deg, rgba(242, 140, 48, 0.1) 0%, rgba(233, 78, 119, 0.1) 50%, rgba(74, 144, 226, 0.1) 100%);
+}

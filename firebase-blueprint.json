@@ -1,0 +1,142 @@
+
+{
+  "entities": {
+    "Company": {
+      "title": "Company",
+      "type": "object",
+      "description": "Enterprise tenant within the HRMS ecosystem.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "portalName": { "type": "string" },
+        "logoURL": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "disabled", "banned"] },
+        "branding": {
+          "type": "object",
+          "properties": {
+            "primaryColor": { "type": "string" },
+            "websiteTitle": { "type": "string" }
+          }
+        },
+        "geofencing": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" },
+            "radius": { "type": "number", "description": "Radius in meters." }
+          }
+        },
+        "modules": {
+          "type": "object",
+          "properties": {
+            "payroll": { "type": "boolean" },
+            "liveTracking": { "type": "boolean" },
+            "leaveManagement": { "type": "boolean" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "portalName"]
+    },
+    "HrmsUser": {
+      "title": "HrmsUser",
+      "type": "object",
+      "description": "Unified user entity for the HRMS platform.",
+      "properties": {
+        "uid": { "type": "string" },
+        "companyId": { "type": "string" },
+        "role": { "type": "string", "enum": ["super_admin", "support", "company_admin", "hr", "manager", "employee"] },
+        "fullName": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "email": { "type": "string" },
+        "mobile": { "type": "string" },
+        "managerId": { "type": "string" },
+        "deviceId": { "type": "string", "description": "Locked hardware ID for device binding." },
+        "deviceStatus": { "type": "string", "enum": ["registered", "unregistered"] },
+        "status": { "type": "string", "enum": ["active", "disabled", "banned", "deleted"] },
+        "department": { "type": "string" },
+        "designation": { "type": "string" },
+        "leaveBalance": {
+          "type": "object",
+          "properties": {
+            "casual": { "type": "number", "default": 12 },
+            "earned": { "type": "number", "default": 0 }
+          }
+        }
+      },
+      "required": ["uid", "role", "username", "password"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "type": "object",
+      "description": "Daily punch records with GPS and Geofencing context.",
+      "properties": {
+        "userId": { "type": "string" },
+        "companyId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "punchIn": {
+          "type": "object",
+          "properties": {
+            "time": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "locationName": { "type": "string" },
+            "isGeofenced": { "type": "boolean" }
+          }
+        },
+        "punchOut": {
+          "type": "object",
+          "properties": {
+            "time": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "locationName": { "type": "string" }
+          }
+        },
+        "workingHours": { "type": "number" },
+        "status": { "type": "string", "enum": ["present", "absent", "half_day", "leave", "holiday", "weekly_off"] },
+        "remarks": { "type": "string" }
+      }
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "type": "object",
+      "description": "Security and administrative change tracking.",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "role": { "type": "string" },
+        "action": { "type": "string" },
+        "targetId": { "type": "string" },
+        "oldValue": { "type": "object" },
+        "newValue": { "type": "object" },
+        "reason": { "type": "string" },
+        "panel": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/companies/{companyId}": {
+      "schema": "Company",
+      "description": "Enterprise tenants."
+    },
+    "/hrms_users/{userId}": {
+      "schema": "HrmsUser",
+      "description": "HRMS multi-tenant user registry."
+    },
+    "/attendance/{recordId}": {
+      "schema": "AttendanceRecord",
+      "description": "Daily attendance logs."
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "System-wide action tracking."
+    }
+  }
+}

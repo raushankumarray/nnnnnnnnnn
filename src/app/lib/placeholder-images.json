@@ -1,0 +1,41 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-abstract",
+      "description": "Abstract technological 3D landscape with floating geometric shapes",
+      "imageUrl": "https://picsum.photos/seed/npb1/1200/800",
+      "imageHint": "abstract technology"
+    },
+    {
+      "id": "service-software",
+      "description": "Modern software development interface with code snippets",
+      "imageUrl": "https://picsum.photos/seed/npb2/600/400",
+      "imageHint": "software development"
+    },
+    {
+      "id": "service-cloud",
+      "description": "Cloud infrastructure visualization with interconnected nodes",
+      "imageUrl": "https://picsum.photos/seed/npb3/600/400",
+      "imageHint": "cloud computing"
+    },
+    {
+      "id": "portfolio-fintech",
+      "description": "Clean fintech mobile app interface design",
+      "imageUrl": "https://picsum.photos/seed/npb4/800/600",
+      "imageHint": "app design"
+    },
+    {
+      "id": "portfolio-ai",
+      "description": "AI-powered data visualization dashboard",
+      "imageUrl": "https://picsum.photos/seed/npb5/800/600",
+      "imageHint": "data analysis"
+    },
+    {
+      "id": "profile-vibrant-bg",
+      "description": "Colorful abstract fluid background with dynamic gradients",
+      "imageUrl": "https://picsum.photos/seed/profile-bg/1200/800",
+      "imageHint": "abstract colorful"
+    }
+  ]
+}
