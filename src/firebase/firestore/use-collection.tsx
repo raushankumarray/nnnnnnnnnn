@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { onSnapshot } from 'firebase/firestore';
 import type {
   DocumentData,
   FirestoreError,
   Query,
   CollectionReference,
 } from 'firebase/firestore';
+import { useAuth } from '@/firebase/provider';
 
 export type WithId<T> = T & { id: string };
 
@@ -16,13 +18,44 @@ export interface UseCollectionResult<T> {
   error: FirestoreError | Error | null;
 }
 
-/**
- * Stubbed hook that returns empty data.
- * Used for running the site without a live Firebase database.
- */
 export function useCollection<T = any>(
-    memoizedTargetRefOrQuery: any | null | undefined,
+  memoizedTargetRefOrQuery: (Query<DocumentData> | CollectionReference<DocumentData>) | null | undefined,
 ): UseCollectionResult<T> {
-  // Always return empty data to prevent UI crashes in .map() calls
-  return { data: [], isLoading: false, error: null };
+  const [data, setData] = useState<WithId<T>[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<FirestoreError | Error | null>(null);
+
+  useEffect(() => {
+    if (!memoizedTargetRefOrQuery) {
+      setData([]);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const unsubscribe = onSnapshot(
+      memoizedTargetRefOrQuery,
+      (snapshot) => {
+        const results: WithId<T>[] = [];
+        snapshot.forEach((doc) => {
+          results.push({
+            ...(doc.data() as T),
+            id: doc.id,
+          });
+        });
+        setData(results);
+        setIsLoading(false);
+      },
+      (err) => {
+        console.error('Firestore useCollection error:', err);
+        setError(err);
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [memoizedTargetRefOrQuery]);
+
+  return { data, isLoading, error };
 }

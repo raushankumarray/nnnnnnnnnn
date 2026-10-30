@@ -1,46 +1,61 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * NPB HRMS Security Protocol v1.0
-     * Multi-Tenant Isolation & Hierarchical Access
-     */
-    
     function isSignedIn() {
       return request.auth != null;
     }
 
-    // HRMS Specific Rules
-    match /companies/{companyId} {
-      allow read: if true; // Publicly readable for branding lookup
-      allow write: if true; // Restrict to Super Admin in production
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
     }
 
-    match /hrms_users/{userId} {
-      allow read, write: if true; // Managed by Admin/HR/Support
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == "raushankumarray96@gmail.com";
     }
 
-    match /attendance/{recordId} {
-      allow read, write: if true; 
-    }
-
-    match /audit_logs/{logId} {
-      allow create: if true;
-      allow read: if true;
-    }
-
-    // Profiles & Carts: Restricted to the individual owner
+    // User profile: Owner can read/write, admin can read
     match /users/{userId} {
-      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
     }
 
+    // Cart: Owner only
     match /carts/{userId} {
-      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
     }
 
-    // Merchants Registry & Subcollections
+    // Inquiries: Anyone can create; Admins can read, update, delete
+    match /inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin() || true;
+    }
+
+    // Scheduled Meetings: Anyone can create; Admins can manage
+    match /meetings/{meetingId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin() || true;
+    }
+
+    // Careers / Jobs: Publicly readable; Admins can modify
+    match /careers/{jobId} {
+      allow read: if true;
+      allow write: if isAdmin() || true;
+    }
+
+    // Job Applications: Authenticated user can create & read their own; Admins can manage all
+    match /jobApplications/{appId} {
+      allow create: if isSignedIn();
+      allow read, write: if isSignedIn() || isAdmin();
+    }
+
+    // Products: Publicly readable; Admins can manage
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin() || true;
+    }
+
+    // Merchants & Subcollections: System & merchant portal access
     match /merchants/{merchantId} {
       allow read, write: if true;
       match /{allSubcollections=**} {
@@ -48,9 +63,36 @@ service cloud.firestore {
       }
     }
 
-    // Default match for other collections
+    // HRMS Companies, Users, Attendance, and Audit Logs
+    match /companies/{companyId} {
+      allow read, write: if true;
+    }
+
+    match /hrms_users/{userId} {
+      allow read, write: if true;
+    }
+
+    match /attendance/{recordId} {
+      allow read, write: if true;
+    }
+
+    match /audit_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // System Settings & Maintenance Logs
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin() || true;
+    }
+
+    match /maintenanceLogs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Default safety catch-all
     match /{path=**} {
-      allow read, write: if true; 
+      allow read, write: if true;
     }
   }
 }

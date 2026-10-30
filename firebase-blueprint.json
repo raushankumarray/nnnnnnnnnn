@@ -1,6 +1,139 @@
-
 {
   "entities": {
+    "User": {
+      "title": "User",
+      "type": "object",
+      "description": "User profile with personal and contact information.",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "fullName": { "type": "string" },
+        "mobile": { "type": "string" },
+        "dob": { "type": "string" },
+        "fullAddress": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "resumeURL": { "type": "string" },
+        "idCardURL": { "type": "string" },
+        "idCardType": { "type": "string" },
+        "provider": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email"]
+    },
+    "Cart": {
+      "title": "Cart",
+      "type": "object",
+      "description": "User shopping cart containing software modules.",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "type": "object",
+      "description": "Contact message submitted by prospective clients.",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "pending", "solved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "message"]
+    },
+    "Meeting": {
+      "title": "Meeting",
+      "type": "object",
+      "description": "Virtual consultation scheduling record.",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "date": { "type": "string" },
+        "timeSlot": { "type": "string" },
+        "subject": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "progress", "discussion", "completed", "canceled"] },
+        "meetingLink": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "date", "timeSlot"]
+    },
+    "Job": {
+      "title": "Job",
+      "type": "object",
+      "description": "Job opening in the career ecosystem.",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "requirements": { "type": "string" },
+        "salary": { "type": "string" },
+        "location": { "type": "string" },
+        "experience": { "type": "string" },
+        "technologies": { "type": "string" },
+        "education": { "type": "string" },
+        "batchPassout": { "type": "string" },
+        "lastDate": { "type": "string" },
+        "category": { "type": "string" },
+        "type": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description"]
+    },
+    "JobApplication": {
+      "title": "JobApplication",
+      "type": "object",
+      "description": "Candidate application submitted for a job opening.",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "jobId": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "experience": { "type": "string" },
+        "status": { "type": "string" },
+        "applicantSnapshot": { "type": "object" },
+        "hiringContext": { "type": "object" },
+        "appliedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "jobId"]
+    },
+    "Product": {
+      "title": "Product",
+      "type": "object",
+      "description": "Software products and enterprise modules offered by NPB Media.",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "marketValue": { "type": "number" },
+        "features": { "type": "array" },
+        "color": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "marketValue"]
+    },
+    "Merchant": {
+      "title": "Merchant",
+      "type": "object",
+      "description": "Provisioned merchant account for retail POS & billing software.",
+      "properties": {
+        "shopName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "userId": { "type": "string" },
+        "password": { "type": "string" },
+        "plan": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "disabled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["shopName", "userId", "password"]
+    },
     "Company": {
       "title": "Company",
       "type": "object",
@@ -11,30 +144,6 @@
         "portalName": { "type": "string" },
         "logoURL": { "type": "string" },
         "status": { "type": "string", "enum": ["active", "disabled", "banned"] },
-        "branding": {
-          "type": "object",
-          "properties": {
-            "primaryColor": { "type": "string" },
-            "websiteTitle": { "type": "string" }
-          }
-        },
-        "geofencing": {
-          "type": "object",
-          "properties": {
-            "enabled": { "type": "boolean" },
-            "latitude": { "type": "number" },
-            "longitude": { "type": "number" },
-            "radius": { "type": "number", "description": "Radius in meters." }
-          }
-        },
-        "modules": {
-          "type": "object",
-          "properties": {
-            "payroll": { "type": "boolean" },
-            "liveTracking": { "type": "boolean" },
-            "leaveManagement": { "type": "boolean" }
-          }
-        },
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["name", "portalName"]
@@ -51,77 +160,47 @@
         "username": { "type": "string" },
         "password": { "type": "string" },
         "email": { "type": "string" },
-        "mobile": { "type": "string" },
-        "managerId": { "type": "string" },
-        "deviceId": { "type": "string", "description": "Locked hardware ID for device binding." },
-        "deviceStatus": { "type": "string", "enum": ["registered", "unregistered"] },
-        "status": { "type": "string", "enum": ["active", "disabled", "banned", "deleted"] },
-        "department": { "type": "string" },
-        "designation": { "type": "string" },
-        "leaveBalance": {
-          "type": "object",
-          "properties": {
-            "casual": { "type": "number", "default": 12 },
-            "earned": { "type": "number", "default": 0 }
-          }
-        }
+        "status": { "type": "string", "enum": ["active", "disabled", "banned", "deleted"] }
       },
       "required": ["uid", "role", "username", "password"]
-    },
-    "AttendanceRecord": {
-      "title": "AttendanceRecord",
-      "type": "object",
-      "description": "Daily punch records with GPS and Geofencing context.",
-      "properties": {
-        "userId": { "type": "string" },
-        "companyId": { "type": "string" },
-        "date": { "type": "string", "format": "date" },
-        "punchIn": {
-          "type": "object",
-          "properties": {
-            "time": { "type": "string" },
-            "lat": { "type": "number" },
-            "lng": { "type": "number" },
-            "locationName": { "type": "string" },
-            "isGeofenced": { "type": "boolean" }
-          }
-        },
-        "punchOut": {
-          "type": "object",
-          "properties": {
-            "time": { "type": "string" },
-            "lat": { "type": "number" },
-            "lng": { "type": "number" },
-            "locationName": { "type": "string" }
-          }
-        },
-        "workingHours": { "type": "number" },
-        "status": { "type": "string", "enum": ["present", "absent", "half_day", "leave", "holiday", "weekly_off"] },
-        "remarks": { "type": "string" }
-      }
-    },
-    "AuditLog": {
-      "title": "AuditLog",
-      "type": "object",
-      "description": "Security and administrative change tracking.",
-      "properties": {
-        "userId": { "type": "string" },
-        "userName": { "type": "string" },
-        "role": { "type": "string" },
-        "action": { "type": "string" },
-        "targetId": { "type": "string" },
-        "oldValue": { "type": "object" },
-        "newValue": { "type": "object" },
-        "reason": { "type": "string" },
-        "panel": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" }
-      }
     }
   },
   "auth": {
-    "providers": ["password"]
+    "providers": ["google.com", "password"]
   },
   "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user profiles and credentials."
+    },
+    "/carts/{userId}": {
+      "schema": "Cart",
+      "description": "User persistent shopping cart."
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "General customer inquiries and business proposals."
+    },
+    "/meetings/{meetingId}": {
+      "schema": "Meeting",
+      "description": "Scheduled virtual consultations."
+    },
+    "/careers/{jobId}": {
+      "schema": "Job",
+      "description": "Career opportunities registry."
+    },
+    "/jobApplications/{appId}": {
+      "schema": "JobApplication",
+      "description": "Candidate job applications."
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Marketplace products catalog."
+    },
+    "/merchants/{merchantId}": {
+      "schema": "Merchant",
+      "description": "Merchant accounts for POS system."
+    },
     "/companies/{companyId}": {
       "schema": "Company",
       "description": "Enterprise tenants."
@@ -129,14 +208,6 @@
     "/hrms_users/{userId}": {
       "schema": "HrmsUser",
       "description": "HRMS multi-tenant user registry."
-    },
-    "/attendance/{recordId}": {
-      "schema": "AttendanceRecord",
-      "description": "Daily attendance logs."
-    },
-    "/audit_logs/{logId}": {
-      "schema": "AuditLog",
-      "description": "System-wide action tracking."
     }
   }
 }

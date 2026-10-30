@@ -7,6 +7,8 @@ import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { Chatbot } from "@/components/ui/Chatbot";
 import { GlobalSystemListener } from "@/components/ui/GlobalSystemListener";
 
+import { PageTransitionLoader } from "@/components/ui/PageTransitionLoader";
+
 export const metadata: Metadata = {
   title: 'NPB Media | Modern Software Solutions',
   description: 'NPB Media provides high-end software development, UI/UX design, and AI-powered digital transformation right from Begusarai.',
@@ -29,6 +31,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased min-h-screen">
         <FirebaseClientProvider>
+          <PageTransitionLoader />
           <GlobalSystemListener />
           {children}
           <CookieConsent />

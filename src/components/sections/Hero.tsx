@@ -75,14 +75,17 @@ export function Hero() {
                 </p>
               </div>
               
-              <div className="grid grid-cols-2 gap-10 pt-4 relative z-10">
+              <div className="pt-4 relative z-10">
                 <div className="space-y-2">
-                  <span className="text-6xl font-black text-primary drop-shadow-md">NPB</span>
-                  <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Quality First</p>
-                </div>
-                <div className="space-y-2">
-                  <span className="text-6xl font-black text-secondary drop-shadow-md">Media</span>
-                  <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Vibrant Design</p>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-6xl font-black text-primary drop-shadow-md">NPB</span>
+                    <span className="text-6xl font-black text-secondary drop-shadow-md">Media</span>
+                  </div>
+                  <p className="text-slate-300 font-black uppercase tracking-widest text-sm flex items-center gap-2">
+                    <span className="text-primary font-bold">Quality First</span>
+                    <span className="text-slate-500">•</span>
+                    <span className="text-secondary font-bold">Vibrant Design</span>
+                  </p>
                 </div>
               </div>
 

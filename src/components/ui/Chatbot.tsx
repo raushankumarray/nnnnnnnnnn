@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { MessageSquare, X, Send, Bot, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { MessageSquare, X, Send, Bot, Sparkles, Loader2, ArrowRight, HelpCircle, Compass, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -16,10 +16,11 @@ interface ChatMessage {
 }
 
 const QUICK_PROMPTS = [
-  "What services do you offer?",
-  "How can I schedule a consultation?",
-  "Tell me about POS billing software",
-  "Are you currently hiring developers?",
+  "What services does NPB Media offer?",
+  "How can I book a virtual meeting?",
+  "Tell me about the Retail POS billing software",
+  "Are you hiring developers or designers?",
+  "Where is NPB Media located?",
 ];
 
 export function Chatbot() {
@@ -31,7 +32,7 @@ export function Chatbot() {
     {
       id: "welcome-1",
       role: "model",
-      content: "Hello! 👋 I'm the NPB Media AI Assistant. How can I help you explore our software solutions, services, or career opportunities today?",
+      content: "Hello and welcome to NPB Media! 👋 I'm your dedicated NPB Assistant. Whether you're inquiring about our software services, POS billing system, booking a consultation, or joining our engineering team, I'm here to assist and describe all our solutions. What can I help you with today?",
       timestamp: "Just now",
     },
   ]);
@@ -47,7 +48,7 @@ export function Chatbot() {
     }
   }, [messages, isOpen]);
 
-  // Don't show chatbot in admin dashboards to prevent UI clutter
+  // Don't show chatbot in internal admin dashboards to prevent UI clutter
   if (pathname.startsWith("/admin")) {
     return null;
   }
@@ -95,7 +96,7 @@ export function Chatbot() {
       const fallbackMessage: ChatMessage = {
         id: `bot-${Date.now()}`,
         role: "model",
-        content: "I'm having a brief connection delay, but our team is standing by! Feel free to visit our Contact page or schedule a virtual discovery call.",
+        content: "NPB Media specializes in custom software, mobile apps, and retail billing systems. You can reach our team directly at /contact or schedule a meeting at /contact/schedule-meeting.",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
       setMessages(prev => [...prev, fallbackMessage]);
@@ -115,19 +116,19 @@ export function Chatbot() {
     <div className="fixed bottom-8 left-8 z-[100]">
       {/* Floating Chat Modal */}
       {isOpen && (
-        <div className="absolute bottom-20 left-0 w-[90vw] sm:w-[400px] h-[550px] bg-slate-950 border border-slate-800 rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+        <div className="absolute bottom-20 left-0 w-[92vw] sm:w-[420px] h-[580px] bg-slate-950 border border-slate-800 rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-300">
           {/* Header */}
-          <div className="p-5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-5 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary">
-                <Bot className="w-5 h-5" />
+              <div className="w-11 h-11 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary shadow-inner">
+                <Bot className="w-6 h-6" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-headline font-black italic text-white uppercase tracking-tight">NPB Assistant</h3>
+                  <h3 className="text-base font-headline font-black italic text-white uppercase tracking-tight">NPB Assistant</h3>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AI Software Concierge</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Website Query & AI Guide</p>
               </div>
             </div>
             <Button
@@ -147,51 +148,49 @@ export function Chatbot() {
               <div
                 key={msg.id}
                 className={cn(
-                  "flex flex-col max-w-[85%] rounded-2xl p-4 leading-relaxed",
+                  "flex flex-col max-w-[88%] rounded-2xl p-4 leading-relaxed",
                   msg.role === "user"
-                    ? "ml-auto bg-primary text-white rounded-br-none"
+                    ? "ml-auto bg-primary text-white rounded-br-none shadow-md"
                     : "mr-auto bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none"
                 )}
               >
-                <div className="flex items-center justify-between gap-2 mb-1 opacity-70 text-[9px] font-black uppercase tracking-wider">
-                  <span>{msg.role === "user" ? "You" : "NPB AI"}</span>
+                <div className="flex items-center justify-between gap-2 mb-1.5 opacity-70 text-[9px] font-black uppercase tracking-wider">
+                  <span>{msg.role === "user" ? "You" : "NPB Assistant"}</span>
                   <span>{msg.timestamp}</span>
                 </div>
-                <p className="whitespace-pre-wrap">{msg.content}</p>
+                <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
               </div>
             ))}
 
             {isLoading && (
               <div className="mr-auto bg-slate-900 text-slate-400 border border-slate-800 rounded-2xl rounded-bl-none p-4 flex items-center gap-2 text-xs">
                 <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                <span>NPB AI is thinking...</span>
+                <span>NPB Assistant is preparing your answer...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompts (only if 2 or fewer messages) */}
-          {messages.length <= 2 && (
-            <div className="px-5 py-2 flex flex-wrap gap-1.5 border-t border-slate-900">
-              {QUICK_PROMPTS.map((prompt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSendMessage(prompt)}
-                  className="text-[10px] font-bold text-slate-400 bg-slate-900 hover:bg-primary/20 hover:text-primary border border-slate-800 rounded-full px-3 py-1 transition-colors text-left"
-                >
-                  {prompt}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Quick Prompts */}
+          <div className="px-5 py-2.5 flex flex-wrap gap-1.5 border-t border-slate-900 bg-slate-950/80">
+            {QUICK_PROMPTS.map((prompt, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSendMessage(prompt)}
+                className="text-[10px] font-bold text-slate-400 bg-slate-900 hover:bg-primary/20 hover:text-primary border border-slate-800 rounded-full px-3 py-1 transition-colors text-left"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
 
           {/* Input Area */}
-          <div className="p-4 bg-slate-900/90 border-t border-slate-800 flex items-center gap-2">
+          <div className="p-4 bg-slate-900/95 border-t border-slate-800 flex items-center gap-2">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask about our software, solutions, or hiring..."
+              placeholder="Ask any question about NPB Media, services, or products..."
               className="h-11 bg-slate-950 border-slate-800 text-white placeholder:text-slate-500 rounded-xl text-xs focus:border-primary"
               disabled={isLoading}
             />
@@ -199,7 +198,7 @@ export function Chatbot() {
               onClick={() => handleSendMessage()}
               disabled={isLoading || !input.trim()}
               size="icon"
-              className="h-11 w-11 rounded-xl bg-primary hover:bg-primary/90 text-white shrink-0"
+              className="h-11 w-11 rounded-xl bg-primary hover:bg-primary/90 text-white shrink-0 shadow-lg shadow-primary/20"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />
@@ -215,14 +214,14 @@ export function Chatbot() {
           "flex items-center gap-3 px-5 h-14 rounded-full bg-slate-900 text-white border-2 border-slate-800 shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 group hover:border-primary",
           isOpen && "bg-primary border-primary"
         )}
-        aria-label="Toggle AI Assistant"
+        aria-label="Toggle NPB Assistant"
       >
         <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-white group-hover:text-primary transition-colors">
           <Sparkles className="w-4 h-4" />
         </div>
         <div className="text-left hidden sm:block">
           <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-white leading-none">NPB Assistant</p>
-          <p className="text-xs font-black text-white leading-none mt-1">Chat With AI</p>
+          <p className="text-xs font-black text-white leading-none mt-1">Ask Any Question</p>
         </div>
       </button>
     </div>
