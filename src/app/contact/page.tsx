@@ -40,8 +40,8 @@ const contactInfo = [
   },
   {
     title: "Call Us",
-    value: "+91 00000 00000",
-    href: "tel:+910000000000",
+    value: "+918877300114",
+    href: "tel:+918877300114",
     description: "Mon-Fri from 10am to 6pm IST.",
     icon: Phone,
     color: "bg-blue-600",
@@ -153,7 +153,7 @@ export default function ContactPage() {
                   <a 
                     key={idx}
                     href={info.href}
-                    className="group relative p-8 bg-white rounded-[2.5rem] shadow-xl border border-slate-100 transition-all duration-500 overflow-hidden flex items-center gap-8 hover:-translate-y-2 hover:shadow-2xl hover:bg-primary cursor-pointer block"
+                    className="group relative p-8 bg-white rounded-[2.5rem] shadow-xl border border-slate-100 transition-all duration-500 overflow-hidden flex items-center gap-8 hover:-translate-y-2 hover:shadow-2xl hover:bg-primary cursor-pointer"
                   >
                     <div className={cn(
                       "w-16 h-16 rounded-2xl flex items-center justify-center text-white transition-all duration-500 group-hover:bg-white group-hover:text-primary shrink-0",

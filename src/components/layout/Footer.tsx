@@ -11,7 +11,8 @@ import {
   Mail,
   Phone,
   ChevronRight,
-  Scale
+  Scale,
+  Heart
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 
@@ -29,9 +30,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           {/* Brand Column */}
           <div className="space-y-8">
-            <Link href="/" className="flex items-center gap-4 group">
+            <Link href="/" className="flex flex-wrap items-center gap-3 md:gap-4 group">
+              <span className="inline-flex md:hidden items-center gap-1.5 font-headline font-black text-2xl sm:text-3xl tracking-tight text-white">
+                <span>I</span>
+                <Heart
+                  className="w-6 h-6 sm:w-7 sm:h-7 text-red-500 fill-red-500 shrink-0 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]"
+                  aria-label="love"
+                />
+              </span>
               <Logo className="transition-transform group-hover:scale-110 duration-500" />
-              <span className="font-headline font-black text-3xl tracking-tight">
+              <span className="font-headline font-black text-2xl sm:text-3xl tracking-tight">
                 <span className="text-white">NPB </span>
                 <span className="text-primary italic">Media</span>
               </span>
@@ -60,6 +68,7 @@ export function Footer() {
                 <li key={item}>
                   <Link 
                     href={`/${item.toLowerCase().replace(" ", "-")}`} 
+                    prefetch={false}
                     className="text-slate-400 hover:text-white transition-all flex items-center gap-2 group font-black uppercase text-xs tracking-widest"
                   >
                     <ChevronRight className="w-3 h-3 text-primary opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />
@@ -86,6 +95,7 @@ export function Footer() {
                 <li key={item.name}>
                   <Link 
                     href={item.href} 
+                    prefetch={false}
                     className="text-slate-400 hover:text-white transition-all flex items-center gap-2 group font-black uppercase text-xs tracking-widest"
                   >
                     <ChevronRight className="w-3 h-3 text-primary opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />

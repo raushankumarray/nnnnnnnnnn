@@ -4,10 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from '@/firebase';
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
-import { Chatbot } from "@/components/ui/Chatbot";
 import { GlobalSystemListener } from "@/components/ui/GlobalSystemListener";
-
-import { PageTransitionLoader } from "@/components/ui/PageTransitionLoader";
 
 export const metadata: Metadata = {
   title: 'NPB Media | Modern Software Solutions',
@@ -31,12 +28,10 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased min-h-screen">
         <FirebaseClientProvider>
-          <PageTransitionLoader />
           <GlobalSystemListener />
           {children}
           <CookieConsent />
           <WhatsAppButton />
-          <Chatbot />
           <Toaster />
         </FirebaseClientProvider>
       </body>

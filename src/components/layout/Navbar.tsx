@@ -91,6 +91,7 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              prefetch={false}
               className={cn(
                 "text-[10px] lg:text-xs font-black uppercase tracking-widest hover:text-primary transition-colors whitespace-nowrap",
                 pathname === link.href ? "text-primary" : "text-foreground/70"
@@ -185,6 +186,7 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
+              prefetch={false}
               onClick={() => setIsMobileMenuOpen(false)}
               className={cn(
                 "text-lg font-black uppercase tracking-widest py-3 border-b border-muted transition-colors",
