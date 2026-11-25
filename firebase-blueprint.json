@@ -163,6 +163,35 @@
         "status": { "type": "string", "enum": ["active", "disabled", "banned", "deleted"] }
       },
       "required": ["uid", "role", "username", "password"]
+    },
+    "Order": {
+      "title": "Order",
+      "type": "object",
+      "description": "UPI payment transaction and module order record.",
+      "properties": {
+        "orderId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string", "format": "email" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "gst": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "upiApp": { "type": "string" },
+        "payerUpiId": { "type": "string" },
+        "merchantUpiId": { "type": "string" },
+        "transactionRef": { "type": "string" },
+        "utrNumber": { "type": "string" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "success", "failed"] },
+        "orderStatus": { "type": "string", "enum": ["pending", "confirmed", "not_confirmed"] },
+        "failureReason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "confirmedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "userId", "totalAmount", "paymentStatus", "orderStatus", "transactionRef"]
     }
   },
   "auth": {
@@ -208,6 +237,10 @@
     "/hrms_users/{userId}": {
       "schema": "HrmsUser",
       "description": "HRMS multi-tenant user registry."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer UPI payment transactions and order confirmation records."
     }
   }
 }

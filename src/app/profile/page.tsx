@@ -245,6 +245,15 @@ export default function ProfilePage() {
             </span>
             <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-secondary group-hover:translate-x-2 transition-all" />
           </Button>
+
+          <Link href="/payment-history" prefetch={false} className="block md:col-span-2">
+            <Button className="w-full h-24 rounded-[2.5rem] bg-white border-2 border-slate-100 hover:border-primary hover:bg-slate-50 transition-all shadow-xl group justify-between px-10 text-slate-900 overflow-hidden">
+              <span className="flex items-center gap-4 text-xl font-headline font-black italic">
+                <History className="w-6 h-6 text-primary" /> UPI Payment History
+              </span>
+              <ArrowRight className="w-6 h-6 text-slate-300 group-hover:text-primary group-hover:translate-x-2 transition-all" />
+            </Button>
+          </Link>
         </div>
       </div>
 

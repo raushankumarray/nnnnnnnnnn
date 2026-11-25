@@ -30,16 +30,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           {/* Brand Column */}
           <div className="space-y-8">
-            <Link href="/" className="flex flex-wrap items-center gap-3 md:gap-4 group">
-              <span className="inline-flex md:hidden items-center gap-1.5 font-headline font-black text-2xl sm:text-3xl tracking-tight text-white">
+            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+              <span
+                aria-hidden="true"
+                className="inline-flex items-center gap-1 font-headline font-black text-2xl tracking-tight text-white/35 select-none pointer-events-none shrink-0"
+              >
                 <span>I</span>
-                <Heart
-                  className="w-6 h-6 sm:w-7 sm:h-7 text-red-500 fill-red-500 shrink-0 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]"
-                  aria-label="love"
-                />
+                <Heart className="w-5 h-5 text-red-500/75 fill-red-500/75 shrink-0" />
               </span>
               <Logo className="transition-transform group-hover:scale-110 duration-500" />
-              <span className="font-headline font-black text-2xl sm:text-3xl tracking-tight">
+              <span className="font-headline font-black text-2xl sm:text-3xl tracking-tight whitespace-nowrap">
                 <span className="text-white">NPB </span>
                 <span className="text-primary italic">Media</span>
               </span>

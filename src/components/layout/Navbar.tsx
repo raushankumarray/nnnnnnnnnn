@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, UserCircle, LogOut, Loader2, ShoppingBag, User } from "lucide-react";
+import { Menu, X, UserCircle, LogOut, Loader2, ShoppingBag, User, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
@@ -134,9 +134,15 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild className="rounded-xl px-4 py-3 cursor-pointer">
-                      <Link href="/profile" className="flex items-center">
+                      <Link href="/profile" prefetch={false} className="flex items-center">
                         <User className="mr-2 h-4 w-4" />
                         <span className="font-black uppercase text-[10px] tracking-widest">Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="rounded-xl px-4 py-3 cursor-pointer">
+                      <Link href="/payment-history" prefetch={false} className="flex items-center">
+                        <History className="mr-2 h-4 w-4" />
+                        <span className="font-black uppercase text-[10px] tracking-widest">Payment History</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem 
@@ -201,6 +207,7 @@ export function Navbar() {
             <>
               <Link
                 href="/profile"
+                prefetch={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
                   "text-lg font-black uppercase tracking-widest py-3 border-b border-muted transition-colors",
@@ -208,6 +215,17 @@ export function Navbar() {
                 )}
               >
                 Profile
+              </Link>
+              <Link
+                href="/payment-history"
+                prefetch={false}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={cn(
+                  "text-lg font-black uppercase tracking-widest py-3 border-b border-muted transition-colors",
+                  pathname === "/payment-history" ? "text-primary" : "text-foreground"
+                )}
+              >
+                Payment History
               </Link>
               <Button 
                 onClick={handleSignOut}

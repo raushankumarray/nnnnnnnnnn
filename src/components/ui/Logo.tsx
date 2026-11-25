@@ -13,9 +13,6 @@ export function Logo({ className }: { className?: string }) {
           <span className="text-green-600 drop-shadow-sm italic">B</span>
         </div>
       </div>
-      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm">
-        <div className="w-2 h-2 bg-primary rounded-full" />
-      </div>
     </div>
   );
 }

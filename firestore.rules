@@ -25,6 +25,21 @@ service cloud.firestore {
       allow read, write: if isOwner(userId);
     }
 
+    // Orders & UPI Payment History: Owner can read/create/update their own orders; Admin has full access
+    match /orders/{orderId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.orderId is string
+        && request.resource.data.orderId.size() <= 100
+        && request.resource.data.totalAmount is number
+        && request.resource.data.totalAmount > 0;
+      allow update: if isSignedIn()
+        && (resource.data.userId == request.auth.uid || isAdmin())
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if isAdmin();
+    }
+
     // Inquiries: Anyone can create; Admins can read, update, delete
     match /inquiries/{inquiryId} {
       allow create: if true;
